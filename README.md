@@ -9,9 +9,10 @@ Dev Container integration for Lyrio platform.
 
 ## Setup
 
-1. Clone the repository recursively.
-2. Run `cp config-example.yaml config.yaml` and set up smtp server for lyrio backend in config.yaml.
-3. Open the project in devcontainer.
+1. Clone the repository using `git clone`.
+2. Run `git submodule init` and then `git submodule update`.
+3. Run `cp config-example.yaml config.yaml` and set up smtp server for lyrio backend in config.yaml.
+4. Open the project in devcontainer.
 
 ## Services
 
