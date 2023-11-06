@@ -11,8 +11,9 @@ Dev Container integration for Lyrio platform.
 
 1. Clone the repository using `git clone`.
 2. Run `git submodule init` and then `git submodule update`.
-3. Run `cp config-example.yaml config.yaml` and set up smtp server for lyrio backend in config.yaml.
+3. Run `cp config-example.yaml config.yaml` in `.devcontainer/lyrio` folder and set up smtp server for lyrio backend in config.yaml.
 4. Open the project in devcontainer.
+5. You may need to use port forwarding feature in VSCode, to forward the following nginx fixed port.
 
 ## Services
 
@@ -32,6 +33,6 @@ All services are run on their default port.
 After entering the container, run `yarn` for both Lyrio-UI and Lyrio, and then execute `yarn start` for both.
 
 ```bash
-cd lyrio-ui && yarn && yarn start && cd ..
-cd lyrio && yarn && yarn start && cd ..
+cd lyrio-ui && yarn && yarn start
+cd lyrio && yarn && yarn start
 ```
