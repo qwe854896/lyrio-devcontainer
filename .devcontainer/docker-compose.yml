@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  lyrio:
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+    depends_on:
+      - db
+      - redis
+      - minio
+    volumes:
+      - ./lyrio/config.yaml:/workspace/lyrio/config.yaml
+      - ./nginx/lyrio-ui.conf:/etc/nginx/conf.d/lyrio-ui.conf
+      - ./nginx/lyrio.conf:/etc/nginx/conf.d/lyrio.conf
+      - ./nginx/minio.conf:/etc/nginx/conf.d/minio.conf
+      - ../:/workspace/
+    environment:
+      - LYRIO_CONFIG_FILE=/workspace/lyrio/config.yaml
+      - LYRIO_LOG_SQL=1
+    tty: true
+
+  minio:
+    image: minio/minio
+    environment:
+      MINIO_ACCESS_KEY: 'AKAK'
+      MINIO_SECRET_KEY: 'SKSKSKSK'
+    volumes:
+      - minio_data:/data
+    command: server /data
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c " /usr/bin/mc alias set minio http://minio:9000 AKAK SKSKSKSK; /usr/bin/mc mb -p minio/lyrio-files; exit 0; "
+
+  db:
+    image: mariadb:10.6
+    environment:
+      MYSQL_DATABASE: 'lyrio'
+      MYSQL_USER: 'lyrio'
+      MYSQL_PASSWORD: 'lyrio-password'
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    command:
+      [
+        'mysqld',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci'
+      ]
+
+  redis:
+    image: redis:5
+
+volumes:
+  db_data:
+  minio_data:

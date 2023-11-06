@@ -1,0 +1,7 @@
+{
+	"name": "Lyrio",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "lyrio",
+	"workspaceFolder": "/workspace",
+	"shutdownAction": "stopCompose"
+}
